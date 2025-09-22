@@ -12,3 +12,5 @@ disp(f_val)
 
 disp('Jacobian J(X) = ')
 disp(J)
+
+J\F

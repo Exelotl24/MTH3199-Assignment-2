@@ -1,5 +1,4 @@
-%the function name and input/output variable names
-%are just what I chose, you can use whatever names you'd like
+
 function [f_val, J] = test_function01(X)
     % X is [x1; x2; x3]
     x1 = X(1);
@@ -10,11 +9,10 @@ function [f_val, J] = test_function01(X)
     f1 = x1^2 + x2^2 - 6 - x3^5;
     f2 = x1*x3 + x2 - 12;
     f3 = sin(x1 + x2 + x3);
-    
     f_val = [f1; f2; f3];
     
-    % Define Jacobian J(X)
-    J = [ 2*x1, 2*x2, -5*x3^4;
-          x3,   1,    x1;
-          cos(x1+x2+x3), cos(x1+x2+x3), cos(x1+x2+x3) ];
+    % Define J(X)
+    J = [ 2*x1, 2*x2, -5*x3^4; x3,   1,    x1; cos(x1+x2+x3), cos(x1+x2+x3), cos(x1+x2+x3) ];
+
+    X = J\f_val;
 end
