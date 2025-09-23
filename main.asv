@@ -1,5 +1,5 @@
 % Initial guess
-X = [3; 2; 1];  
+X = [1; 1; 1];  
 
 tol = 1e-8;      
 max_iter = 50;  
