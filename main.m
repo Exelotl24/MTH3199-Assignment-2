@@ -1,4 +1,10 @@
 % Initial guess
+clear
+close all
+run_simulation(pi/4, 10)
+
+
+return;
 X = [3; 2; 1];  
 
 tol = 1e-8;      

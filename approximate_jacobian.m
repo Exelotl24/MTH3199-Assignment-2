@@ -1,4 +1,3 @@
-
 function J = approximate_jacobian(fun,X)
   % initialize Jacobian
     f0 = fun(X);

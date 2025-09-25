@@ -23,7 +23,7 @@ function class_2025_09_23()
     disp(f_root)
 
     % disp(J_analytical)
-    % disp(J_numerical)
+    disp(J_numerical)
 
 
 end

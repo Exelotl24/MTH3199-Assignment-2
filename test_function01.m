@@ -1,4 +1,3 @@
-
 function [f_val, J] = test_function01(X)
     % X is [x1; x2; x3]
     x1 = X(1);
