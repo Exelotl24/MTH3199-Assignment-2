@@ -1,4 +1,5 @@
 function strandbeest()
+
     %initialize leg_params structure
     leg_params = struct();
     %number of vertices in linkage
@@ -46,17 +47,23 @@ function strandbeest()
     %for each vertex location.
     %in form: [x1;y1;x2;y2;...;xn;yn]
     vertex_coords_guess = [...
-    [ 0; 50];... %vertex 1 guess
-    [ -50; 0];... %vertex 2 guess
-    [ -50; 50];... %vertex 3 guess
-    [-100; 0];... %vertex 4 guess
-    [-100; -50];... %vertex 5 guess
-    [ -50; -50];... %vertex 6 guess
-    [ -50; -100]... %vertex 7 guess
-    ];
+        [ 0; 50];... %vertex 1 guess
+        [ -50; 0];... %vertex 2 guess
+        [ -50; 50];... %vertex 3 guess
+        [-100; 0];... %vertex 4 guess
+        [-100; -50];... %vertex 5 guess
+        [ -50; -50];... %vertex 6 guess
+        [ -50; -100]... %vertex 7 guess
+        ];
    
-
-    compute_coords(vertex_coords_guess, leg_params, pi/2)
-
+    theta_list = linspace(0, 2*pi, 100);
+    coord_roots = compute_coords(vertex_coords_guess, leg_params, pi/2);
+    leg_drawing = initialize_leg_drawing(leg_params);
+    pause(1)
+    for theta = theta_list
+        update_leg_drawing(coord_roots, leg_drawing, leg_params);
+        coord_roots = compute_coords(coord_roots, leg_params, theta);
+        pause(0.001)
+    end
 
 end

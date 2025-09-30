@@ -9,10 +9,10 @@
 % these coords satisfy all the kinematic constraints!
 function vertex_coords_root = compute_coords(vertex_coords_guess, leg_params, theta)
     solver_params = struct();
-    solver_params.dxmin = 1e-10;
-    solver_params.ftol = 1e-10;
+    solver_params.dxmin = 1e-6;
+    solver_params.ftol = 1e-6;
     solver_params.dxmax = 1e8;
-    solver_params.max_iters = 200;
+    solver_params.max_iters = 500;
     solver_params.numerical_diff = 0;
 
     function errors = linkage_error_func_wrapper(guesses)

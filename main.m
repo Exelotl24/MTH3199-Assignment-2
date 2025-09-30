@@ -2,7 +2,9 @@
 clear
 close all
 
+strandbeest()
 
+return;
 % ------------------- TESTING JACOBIAN FUNCTION --------------------------
 X0 = rand(3, 1);
 

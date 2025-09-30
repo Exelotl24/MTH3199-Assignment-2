@@ -27,7 +27,7 @@ function length_errors = link_length_error_func(vertex_coords, leg_params)
         y_a = coords(leg_params.link_to_vertex_list(i, 1), 2);
         x_b = coords(leg_params.link_to_vertex_list(i, 2), 1);
         y_b = coords(leg_params.link_to_vertex_list(i, 2), 2);
-        length_errors(i) = (x_b-x_a)^2 + (y_b-y_a)^2 - leg_params.link_lengths(i);
+        length_errors(i) = (x_b-x_a)^2 + (y_b-y_a)^2 - leg_params.link_lengths(i)^2;
     end
 
 end
