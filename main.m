@@ -12,7 +12,7 @@ X0 = rand(3, 1);
 J_numerical = approximate_jacobian(@test_function01, X0);
 
 test_numerical_jacobian();
-disp('Tests Passed')
+disp('Tests Passed');
 
 % ------------------ TESTING MULTI_NEWTON_SOLVER -------------------------
 Xguess = rand(3, 1);
@@ -49,5 +49,35 @@ x_guess =  [0.52; 3];
 [x, exit_flag] = multi_newton_solver(@projectile_target_traj, x_guess, solver_params);
 
 if exit_flag
+    print("going into sim fr fr");
     run_simulation(x(1), x(2))
+    print("in sim");
 end
+print("out of sim");
+% -------------------- COMPUTE COORDS/VELOCITIES -------------------------
+
+theta = pi/4;
+vertex_coords_guess = [...
+     0; 50;
+    -50; 0;
+    -50; 50;
+   -100; 0;
+   -100;-50;
+    -50;-50;
+    -50;-100];
+print("in math shit");
+V_root = compute_coords(vertex_coords_guess, leg_params, theta)
+dVdtheta = compute_velocities(V_root, leg_params, theta)
+
+vx_tip = dVdtheta(2*(7-1) + 1)
+vy_tip = dVdtheta(2*(7-1) + 2)
+
+disp(V_root);
+disp("vx tip:");
+disp(vx_tip);
+disp("vy tip:");
+disp(vy_tip);
+
+disp("Test start");
+theta = pi/4;
+disp("theta set");

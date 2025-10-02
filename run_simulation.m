@@ -3,7 +3,7 @@
 %t_c is the predicted collision time
 function run_simulation(theta,t_c)
 %create the plot window, set the axes size, and add labels
-
+print("in sim fr fr");
 hold on;
 axis equal; axis square;
 axis([0,50,0,50])
@@ -21,7 +21,8 @@ V_list_proj = [];
 V_list_targ = [];
 %iterate through time until a little after the collision occurs
 for t = 0:.005:t_c+1.5
-%set time so that things freeze once collision occurs
+print("in sim for loop fr");
+    %set time so that things freeze once collision occurs
 t_input = min(t,t_c);
 %compute position of projectile and target
 V_p = projectile_traj(theta,t_input);
@@ -39,4 +40,5 @@ set(traj_line_targ,'xdata',V_list_targ(1,i:end),'ydata',V_list_targ(2,i:end));
 %show updated plots
 drawnow;
 end
+print("in sim out of for loop fr fr");
 end
