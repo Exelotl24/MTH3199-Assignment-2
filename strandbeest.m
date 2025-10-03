@@ -94,9 +94,15 @@ function leg_params = strandbeest()
     plot(theta_list, dVdtheta_FD_list(:, 1), 'y', 'DisplayName', 'fd x velocity')
     plot(theta_list, dVdtheta_FD_list(:, 2), 'g', 'DisplayName', 'fd x velocity')
     legend()
-    title('?')
+    title(['Velocity vs Angle' ...
+        ''])
+    ymin = -50;
+    ymax = 30;
+    xmin = 0;
+    xmax = 19;
     xlabel('theta (radians)')
     ylabel('velocity')
+
 
 
 
