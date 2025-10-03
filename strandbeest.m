@@ -1,4 +1,4 @@
-function strandbeest()
+function leg_params = strandbeest()
 
     %initialize leg_params structure
     leg_params = struct();

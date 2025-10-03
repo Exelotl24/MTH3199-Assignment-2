@@ -16,11 +16,44 @@ vertex_coords_guess = [...
     -50;-50;
     -50;-100];
 
-V_root = compute_coords(vertex_coords_guess, leg_params, theta)
-dVdtheta = finite_differences(vertex_coords, leg_params, theta)
+x7_LA = [];
+y7_LA = [];
+x7_FD = [];
+x7_FD = [];
+theta_list = [];
 
-vx_tip = dVdtheta(2*(7-1) + 1)
-vy_tip = dVdtheta(2*(7-1) + 2)
+for theta = 0:0.03:6*pi
+    V_root = compute_coords(vertex_coords_guess, leg_params, theta)
+    dVdtheta_LA = compute_velocities(V_root, leg_params, theta)
+    dVdtheta_FD = finite_differences(V_root, leg_params, theta)
+    
+    if theta <= 2*pi
+        x7_LA(end+1) = dVdtheta_LA(13);
+        y7_LA(end+1) = dVdtheta_LA(14);
+
+        x7_FD(end+1) = dVdtheta_FD(13);
+        y7_FD(end+1) = dVdtheta_FD(14);
+
+        theta_list(end+1) = theta;
+    end
+
+    figure()
+    hold on;
+    plot(x7_LA, theta_list)
+    plot(x7_FD, theta_list)
+    hold off;
+
+    figure()
+    hold on;
+    plot(y7_LA, theta_list)
+    plot(y7_FD, theta_list)
+    hold off;
+end
+
+
+    vx_tip = dVdtheta(13)
+    vy_tip = dVdtheta(14)
+ 
 
 
 return;
