@@ -11,6 +11,9 @@
 % to a plot of one of the vertices in the linkage
 function leg_drawing = initialize_leg_drawing(leg_params)
     leg_drawing = struct();
+    xlim([-120, 20]);
+    ylim([-100, 40]);
+
     leg_drawing.linkages = cell(leg_params.num_linkages,1);
     for linkage_index = 1:leg_params.num_linkages
         leg_drawing.linkages{linkage_index} = line([0,0],[0,0],'color','k','linewidth',2);
