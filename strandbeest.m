@@ -56,37 +56,51 @@ function leg_params = strandbeest()
         [ -50; -100]... %vertex 7 guess
         ];
    
+    % define the list of angles to parse through
     theta_list = linspace(0, 6*pi, 250);
+
+    % compute the initial vertex coordinates
     coord_roots = compute_coords(vertex_coords_guess, leg_params, pi/2);
+
+    % initialize leg drawing and add-ons
     leg_drawing = initialize_leg_drawing(leg_params);
     leg_drawing.la_velocity = line([0,0],[0,0],'color','r','linewidth',0.5);
     leg_drawing.fd_velocity = line([0,0],[0,0],'color','b','linewidth',0.5, 'linestyle', '--');
     leg_drawing.tip_path = line(0, 0, 'color','k','linewidth',0.5, 'linestyle', '--');
     tip_path_coords = [];
 
+    % initialize velocities lists
     dVdtheta_LA_list = zeros(length(theta_list), 2);
     dVdtheta_FD_list = zeros(length(theta_list), 2);
 
+    % wait for figure to load
     pause(1)
+
     for i = 1:length(theta_list)
+        % update drawing figure
         update_leg_drawing(coord_roots, leg_drawing, leg_params);
         
+        % calculate velocity of tip
         dVdtheta_LA = column_to_matrix(compute_velocities(coord_roots, leg_params, theta_list(i)));
         dVdtheta_LA_list(i, :) = dVdtheta_LA(7, :);
         dVdtheta_FD = column_to_matrix(finite_differences(coord_roots, leg_params, theta_list(i)));
         dVdtheta_FD_list(i, :) = dVdtheta_FD(7, :);
         root_matrix = column_to_matrix(coord_roots);
-
         tip_path_coords = [tip_path_coords; root_matrix(7, :)];
 
+        % update drawing with tip velocity and path
         set(leg_drawing.la_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_LA(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_LA(7, 2)])
         set(leg_drawing.fd_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_FD(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_FD(7, 2)])
         set(leg_drawing.tip_path, 'xdata', tip_path_coords(:, 1), 'ydata', tip_path_coords(:, 2))
 
+        % compute new vertex coordinates
         coord_roots = compute_coords(coord_roots, leg_params, theta_list(i));
+
+        % pause for animation duration
         pause(0.01)
     end
 
+    % plot tip velocities
     figure()
     hold on
     plot(theta_list, dVdtheta_LA_list(:, 1), 'r', 'DisplayName', 'linear x velocity')

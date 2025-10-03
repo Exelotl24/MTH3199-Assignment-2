@@ -48,11 +48,11 @@ function [x, exit_flag] = multi_newton_solver(fun,x_guess,solver_params)
 
     %your code here
 
-
+    % initialize variables
     iters = 0;
     x = x_guess;
 
-
+    % check if using numerical or approximate differential
     if numerical_diff
         [fval, J] = fun(x);
     else
@@ -60,9 +60,11 @@ function [x, exit_flag] = multi_newton_solver(fun,x_guess,solver_params)
         J = approximate_jacobian(fun, x);
     end
 
+    % update first delta_x
     delta_x = -J\fval;
 
    
+    % run while iteration under max and root not found
     while iters < max_iters && norm(fval) > ftol && norm(delta_x) > dxtol
         % update x_guess
         x = x + delta_x;
@@ -73,13 +75,15 @@ function [x, exit_flag] = multi_newton_solver(fun,x_guess,solver_params)
             fval = fun(x);
             J = approximate_jacobian(fun, x);
         end
+
+        % update delta_x
         delta_x = -J\fval;
         iters = iters+1;
 
     end
     
 
-
+    % check if root was found
     if norm(fun(x)) < ftol
         exit_flag = true;
     else

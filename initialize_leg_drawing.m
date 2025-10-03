@@ -13,6 +13,7 @@ function leg_drawing = initialize_leg_drawing(leg_params)
     leg_drawing = struct();
     xlim([-120, 20]);
     ylim([-100, 40]);
+    title('Strandbeest Leg')
 
     leg_drawing.linkages = cell(leg_params.num_linkages,1);
     for linkage_index = 1:leg_params.num_linkages

@@ -19,9 +19,13 @@
 % where (xa,ya) and (xb,yb) are the coordinates of the vertices that
 % are connected by the ith link, and d_i is the length of the ith link
 function length_errors = link_length_error_func(vertex_coords, leg_params)
+    % initialize error matrix
     length_errors = zeros(size(leg_params.link_lengths))';
+
+    % convert coordinates to matrix
     coords = column_to_matrix(vertex_coords);
 
+    % calculate error from known vertex positions
     for i = 1:length(length_errors)
         x_a = coords(leg_params.link_to_vertex_list(i, 1), 1);
         y_a = coords(leg_params.link_to_vertex_list(i, 1), 2);
