@@ -3,7 +3,10 @@ clear
 close all
 
 
-leg_params = strandbeest();
+strandbeest();
+
+return;
+
 
 theta = pi/4;
 vertex_coords_guess = [...

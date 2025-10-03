@@ -56,12 +56,24 @@ function leg_params = strandbeest()
         [ -50; -100]... %vertex 7 guess
         ];
    
-    theta_list = linspace(0, 2*pi, 100);
+    theta_list = linspace(0, 2*pi, 1000);
     coord_roots = compute_coords(vertex_coords_guess, leg_params, pi/2);
     leg_drawing = initialize_leg_drawing(leg_params);
+    leg_drawing.la_velocity = line([0,0],[0,0],'color','r','linewidth',0.5);
+    leg_drawing.fd_velocity = line([0,0],[0,0],'color','b','linewidth',0.5, 'linestyle', '--');
+
+
     pause(1)
     for theta = theta_list
         update_leg_drawing(coord_roots, leg_drawing, leg_params);
+        
+        dVdtheta_LA = column_to_matrix(compute_velocities(coord_roots, leg_params, theta));
+        dVdtheta_FD = column_to_matrix(finite_differences(coord_roots, leg_params, theta));
+        root_matrix = column_to_matrix(coord_roots);
+
+        set(leg_drawing.la_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_LA(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_LA(7, 2)])
+        set(leg_drawing.fd_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_FD(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_FD(7, 2)])
+
         coord_roots = compute_coords(coord_roots, leg_params, theta);
         pause(0.001)
     end
