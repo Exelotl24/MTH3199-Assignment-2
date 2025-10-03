@@ -56,26 +56,48 @@ function leg_params = strandbeest()
         [ -50; -100]... %vertex 7 guess
         ];
    
-    theta_list = linspace(0, 2*pi, 1000);
+    theta_list = linspace(0, 6*pi, 250);
     coord_roots = compute_coords(vertex_coords_guess, leg_params, pi/2);
     leg_drawing = initialize_leg_drawing(leg_params);
     leg_drawing.la_velocity = line([0,0],[0,0],'color','r','linewidth',0.5);
     leg_drawing.fd_velocity = line([0,0],[0,0],'color','b','linewidth',0.5, 'linestyle', '--');
+    leg_drawing.tip_path = line(0, 0, 'color','k','linewidth',0.5, 'linestyle', '--');
+    tip_path_coords = [];
 
+    dVdtheta_LA_list = zeros(length(theta_list), 2);
+    dVdtheta_FD_list = zeros(length(theta_list), 2);
 
     pause(1)
-    for theta = theta_list
+    for i = 1:length(theta_list)
         update_leg_drawing(coord_roots, leg_drawing, leg_params);
         
-        dVdtheta_LA = column_to_matrix(compute_velocities(coord_roots, leg_params, theta));
-        dVdtheta_FD = column_to_matrix(finite_differences(coord_roots, leg_params, theta));
+        dVdtheta_LA = column_to_matrix(compute_velocities(coord_roots, leg_params, theta_list(i)));
+        dVdtheta_LA_list(i, :) = dVdtheta_LA(7, :);
+        dVdtheta_FD = column_to_matrix(finite_differences(coord_roots, leg_params, theta_list(i)));
+        dVdtheta_FD_list(i, :) = dVdtheta_FD(7, :);
         root_matrix = column_to_matrix(coord_roots);
+
+        tip_path_coords = [tip_path_coords; root_matrix(7, :)];
 
         set(leg_drawing.la_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_LA(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_LA(7, 2)])
         set(leg_drawing.fd_velocity, 'xdata', [root_matrix(7, 1), root_matrix(7, 1)+dVdtheta_FD(7, 1)], 'ydata', [root_matrix(7, 2), root_matrix(7, 2)+dVdtheta_FD(7, 2)])
+        set(leg_drawing.tip_path, 'xdata', tip_path_coords(:, 1), 'ydata', tip_path_coords(:, 2))
 
-        coord_roots = compute_coords(coord_roots, leg_params, theta);
-        pause(0.001)
+        coord_roots = compute_coords(coord_roots, leg_params, theta_list(i));
+        pause(0.01)
     end
+
+    figure()
+    hold on
+    plot(theta_list, dVdtheta_LA_list(:, 1), 'r', 'DisplayName', 'linear x velocity')
+    plot(theta_list, dVdtheta_LA_list(:, 2), 'b', 'DisplayName', 'linear y velocity')
+    plot(theta_list, dVdtheta_FD_list(:, 1), 'y', 'DisplayName', 'fd x velocity')
+    plot(theta_list, dVdtheta_FD_list(:, 2), 'g', 'DisplayName', 'fd x velocity')
+    legend()
+    title('?')
+    xlabel('theta (radians)')
+    ylabel('velocity')
+
+
 
 end
